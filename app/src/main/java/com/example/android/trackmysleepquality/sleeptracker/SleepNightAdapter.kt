@@ -25,6 +25,7 @@ import com.example.android.trackmysleepquality.convertDurationToFormatted
 import com.example.android.trackmysleepquality.convertNumericQualityToString
 import com.example.android.trackmysleepquality.database.SleepNight
 import com.example.android.trackmysleepquality.databinding.ListItemSleepNightBinding
+import com.example.android.trackmysleepquality.generated.callback.OnClickListener
 
 class SleepNightAdapter : androidx.recyclerview.widget.ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallback()) {
 
@@ -67,4 +68,9 @@ class SleepNightDiffCallback: DiffUtil.ItemCallback<SleepNight>() {
        return oldItem == newItem
     }
 
+}
+
+// create clickListener class and bind it to adapter, use it to pass data to fragments
+class SleepNightListener (val clickListener: (sleepId: Long) -> Unit) {
+    fun onClick(night: SleepNight) = clickListener(night.nightId)
 }
