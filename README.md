@@ -16,9 +16,6 @@ The following **required** functionality is complete:
 * [X] Add list header.
 * [X] Modify header to span and display properly on a GridLayout.
 
-The following **additional** features are implemented:
-
-* [ ] List anything else that you can get done to improve the app functionality!
 
 ## Previous implemented functionality:
 
