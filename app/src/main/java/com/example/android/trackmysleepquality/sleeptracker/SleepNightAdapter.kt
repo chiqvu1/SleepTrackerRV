@@ -28,6 +28,9 @@ import com.example.android.trackmysleepquality.convertNumericQualityToString
 import com.example.android.trackmysleepquality.database.SleepNight
 import com.example.android.trackmysleepquality.databinding.ListItemSleepNightBinding
 import com.example.android.trackmysleepquality.generated.callback.OnClickListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.ClassCastException
 
@@ -36,6 +39,20 @@ private val ITEM_VIEW_TYPE_ITEM = 1
 
 class SleepNightAdapter (val clickListener: SleepNightListener) : androidx.recyclerview.widget.ListAdapter<DataItem, RecyclerView.ViewHolder>(SleepNightDiffCallback()) {
 
+    private val adapterScope = CoroutineScope(Dispatchers.Default)
+
+    fun addHeaderAndBubmitList(list: List<SleepNight>?) {
+        adapterScope.launch {
+            val items = when (list) {
+                null -> listOf(DataItem.Header)
+                else -> listOf(DataItem.Header) + list.map { DataItem.SleepNightItem(it) }
+            }
+
+            withContext(Dispatchers.Main) {
+                submitList(items)
+            }
+        }
+    }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         //val item = getItem(position)
        // holder.bind(item)
