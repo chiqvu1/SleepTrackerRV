@@ -67,7 +67,7 @@ class SleepTrackerFragment : Fragment() {
         binding.sleepTrackerViewModel = sleepTrackerViewModel
 
         //create new SleepNightAdapter and use binding to associate it with RecyclerView
-        val adapter = SleepNightAdapter(SleepNightListener { nightId -> Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()})
+        val adapter = SleepNightAdapter(SleepNightListener { nightId -> sleepTrackerViewModel.onSleepNightClicked(nightId) })
         binding.sleepList.adapter  = adapter
 
         sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
