@@ -27,11 +27,13 @@ import com.example.android.trackmysleepquality.database.SleepNight
 import com.example.android.trackmysleepquality.databinding.ListItemSleepNightBinding
 import com.example.android.trackmysleepquality.generated.callback.OnClickListener
 
-class SleepNightAdapter : androidx.recyclerview.widget.ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallback()) {
+class SleepNightAdapter (val clickListener: SleepNightListener) : androidx.recyclerview.widget.ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+        //val item = getItem(position)
+       // holder.bind(item)
+        //pass Listener to view holder
+        holder.bind(clickListener, getItem(position)!!)
 
     }
 
@@ -42,8 +44,9 @@ class SleepNightAdapter : androidx.recyclerview.widget.ListAdapter<SleepNight, S
 
     class ViewHolder private constructor(val binding: ListItemSleepNightBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: SleepNight) {
+        fun bind(clickListener: SleepNightListener,item: SleepNight) {
             binding.sleep = item
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -70,7 +73,7 @@ class SleepNightDiffCallback: DiffUtil.ItemCallback<SleepNight>() {
 
 }
 
-// create clickListener class and bind it to adapter, use it to pass data to fragments
+// create clickListener class and bind it to adapter
 class SleepNightListener (val clickListener: (sleepId: Long) -> Unit) {
     fun onClick(night: SleepNight) = clickListener(night.nightId)
 }
